@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+  <title>Otter Dusk</title>
+  <meta name="description" content="A tiny offline river game. Paddle through the twilight, dodge rocks, collect lanterns.">
+  <meta name="theme-color" content="#1b8fa6">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="icons/icon-192.png">
+  <link rel="apple-touch-icon" href="icons/icon-192.png">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <canvas id="game" aria-label="Otter Dusk game"></canvas>
+
+  <header id="hud" class="hud hidden">
+    <div class="hud-left">
+      <button id="pauseBtn" class="round" aria-label="Pause">
+        <span class="bars"></span>
+      </button>
+      <div id="hearts" class="hearts" aria-label="Lives"></div>
+    </div>
+    <div class="hud-right">
+      <div id="score" class="score">0</div>
+      <div class="lantern-count"><i class="lamp"></i><span id="lanterns">0</span></div>
+    </div>
+  </header>
+
+  <section id="menu" class="screen">
+    <div class="card">
+      <h1>Otter<br><span>Dusk</span></h1>
+      <p class="tag">Paddle through the twilight river.<br>Dodge the rocks, grab the lanterns.</p>
+      <button id="playBtn" class="btn">Play</button>
+      <p class="best-line">Best <b id="best">0</b></p>
+      <p class="hint">
+        <span class="touch-only">Drag your finger left &amp; right</span>
+        <span class="kbd-only">Mouse, <kbd>←</kbd> <kbd>→</kbd> or <kbd>A</kbd> <kbd>D</kbd> to steer &middot; <kbd>P</kbd> pause</span>
+      </p>
+      <button class="btn ghost sound-btn" type="button">Sound: On</button>
+    </div>
+  </section>
+
+  <section id="pauseScreen" class="screen hidden">
+    <div class="card">
+      <h2>Paused</h2>
+      <button id="resumeBtn" class="btn">Resume</button>
+      <button id="restartBtn" class="btn ghost" type="button">Restart</button>
+      <button class="btn ghost sound-btn" type="button">Sound: On</button>
+    </div>
+  </section>
+
+  <section id="over" class="screen hidden">
+    <div class="card">
+      <h2>Splash!</h2>
+      <div id="newBest" class="badge hidden">New best!</div>
+      <div class="final">
+        <div><small>Score</small><b id="finalScore">0</b></div>
+        <div><small>Best</small><b id="finalBest">0</b></div>
+      </div>
+      <p class="lantern-line"><i class="lamp"></i> <span id="finalLanterns">0</span> lanterns</p>
+      <button id="retryBtn" class="btn">Play again</button>
+    </div>
+  </section>
+
+  <script src="game.js"></script>
+  <script>
+    if ('serviceWorker' in navigator && (location.protocol === 'https:' || location.hostname === 'localhost' || location.hostname === '127.0.0.1')) {
+      window.addEventListener('load', function () {
+        navigator.serviceWorker.register('sw.js').catch(function () {});
+      });
+    }
+  </script>
+</body>
+</html>

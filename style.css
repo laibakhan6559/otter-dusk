@@ -1,0 +1,231 @@
+:root {
+  --teal: #1b8fa6;
+  --teal-2: #25c4c0;
+  --sunset: #ff9a7a;
+  --amber: #ffb42e;
+  --amber-dark: #e2631a;
+  --plum: #3a2557;
+  --cream: #fff4e3;
+  --font: "Trebuchet MS", "Segoe UI", system-ui, -apple-system, Roboto, "Helvetica Neue", sans-serif;
+}
+
+* { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+html, body {
+  margin: 0;
+  height: 100%;
+  overflow: hidden;
+  background: var(--teal);
+  font-family: var(--font);
+  color: var(--cream);
+  overscroll-behavior: none;
+  touch-action: none;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+canvas {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+  touch-action: none;
+}
+
+.hidden { display: none !important; }
+
+/* ---------- HUD ---------- */
+.hud {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: calc(env(safe-area-inset-top, 0px) + 12px) calc(env(safe-area-inset-right, 0px) + 14px) 0 calc(env(safe-area-inset-left, 0px) + 14px);
+  pointer-events: none;
+  text-shadow: 0 2px 0 rgba(58, 37, 87, 0.45);
+}
+.hud-left { display: flex; align-items: center; gap: 12px; }
+.hud-right { text-align: right; }
+.hud button { pointer-events: auto; }
+
+.round {
+  width: clamp(40px, 6vmin, 54px);
+  height: clamp(40px, 6vmin, 54px);
+  border-radius: 50%;
+  border: 0;
+  background: linear-gradient(160deg, #ffc247, var(--amber-dark));
+  box-shadow: 0 3px 0 #a8420e, 0 6px 14px rgba(0, 0, 0, 0.25);
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+}
+.round:active { transform: translateY(2px); box-shadow: 0 1px 0 #a8420e; }
+.bars {
+  width: 34%; height: 40%;
+  border-left: 4px solid #fff;
+  border-right: 4px solid #fff;
+  border-radius: 1px;
+}
+
+.hearts {
+  font-size: clamp(20px, 4.2vmin, 28px);
+  color: #ff6b8b;
+  letter-spacing: 2px;
+}
+
+.score {
+  font-size: clamp(38px, 8vmin, 64px);
+  font-weight: 900;
+  line-height: 1;
+  color: #fff;
+}
+.lantern-count {
+  margin-top: 4px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-weight: 800;
+  font-size: clamp(16px, 3.4vmin, 24px);
+  color: #ffd27a;
+}
+.lamp {
+  display: inline-block;
+  width: 0.7em; height: 0.95em;
+  background: radial-gradient(circle at 50% 40%, #fff3b0 0 25%, var(--amber) 26% 100%);
+  border: 2px solid var(--amber-dark);
+  border-radius: 38% 38% 45% 45%;
+  box-shadow: 0 0 10px rgba(255, 190, 70, 0.9);
+}
+
+/* ---------- Screens / cards ---------- */
+.screen {
+  position: fixed;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  padding: max(16px, env(safe-area-inset-top)) max(16px, env(safe-area-inset-right)) max(16px, env(safe-area-inset-bottom)) max(16px, env(safe-area-inset-left));
+  background: radial-gradient(ellipse at 50% 30%, rgba(255, 154, 122, 0.25), rgba(30, 20, 60, 0.55) 70%);
+  overflow-y: auto;
+}
+
+.card {
+  width: min(92vw, 420px);
+  max-height: 100%;
+  text-align: center;
+  padding: clamp(18px, 4vmin, 34px) clamp(18px, 4vmin, 30px);
+  border-radius: 28px;
+  background: linear-gradient(170deg, rgba(58, 37, 87, 0.78), rgba(27, 143, 166, 0.55));
+  border: 2px solid rgba(255, 255, 255, 0.22);
+  box-shadow: 0 18px 50px rgba(20, 10, 50, 0.45);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+}
+
+h1 {
+  margin: 0 0 6px;
+  font-size: clamp(44px, 11vmin, 76px);
+  line-height: 0.95;
+  font-weight: 900;
+  letter-spacing: 1px;
+  color: #fff;
+  text-shadow: 0 4px 0 rgba(58, 37, 87, 0.7);
+}
+h1 span { color: #ffb47a; }
+h2 {
+  margin: 0 0 12px;
+  font-size: clamp(34px, 8vmin, 52px);
+  font-weight: 900;
+  text-shadow: 0 3px 0 rgba(58, 37, 87, 0.7);
+}
+
+.tag { margin: 10px 0 18px; font-size: clamp(14px, 2.6vmin, 18px); line-height: 1.45; opacity: 0.95; }
+
+.btn {
+  display: block;
+  width: 100%;
+  margin: 10px 0 0;
+  padding: 14px 18px;
+  font: inherit;
+  font-size: clamp(20px, 3.6vmin, 26px);
+  font-weight: 900;
+  letter-spacing: 0.5px;
+  color: #fff;
+  border: 0;
+  border-radius: 999px;
+  cursor: pointer;
+  background: linear-gradient(180deg, #ffc247, var(--amber-dark));
+  box-shadow: 0 5px 0 #a8420e, 0 10px 20px rgba(0, 0, 0, 0.3);
+  text-shadow: 0 2px 0 rgba(120, 40, 0, 0.5);
+  transition: transform 0.08s;
+}
+.btn:hover { filter: brightness(1.06); }
+.btn:active { transform: translateY(3px); box-shadow: 0 2px 0 #a8420e; }
+.btn.ghost {
+  font-size: clamp(14px, 2.6vmin, 17px);
+  padding: 10px 16px;
+  background: rgba(255, 255, 255, 0.14);
+  box-shadow: none;
+  text-shadow: none;
+  border: 1.5px solid rgba(255, 255, 255, 0.3);
+}
+.btn.ghost:active { transform: none; background: rgba(255, 255, 255, 0.25); }
+
+.best-line { margin: 14px 0 4px; font-size: clamp(15px, 2.8vmin, 19px); color: #ffd27a; }
+.best-line b { font-size: 1.25em; }
+.hint { margin: 8px 0 4px; font-size: 13px; opacity: 0.8; min-height: 1.3em; }
+
+kbd {
+  display: inline-block;
+  padding: 1px 6px;
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.18);
+  font: inherit;
+  font-weight: 700;
+}
+
+/* Show touch hint on touch devices, keyboard hint otherwise */
+.touch-only { display: none; }
+@media (hover: none) and (pointer: coarse) {
+  .touch-only { display: inline; }
+  .kbd-only { display: none; }
+}
+
+.final {
+  display: flex;
+  justify-content: center;
+  gap: 14px;
+  margin: 8px 0 6px;
+}
+.final > div {
+  flex: 1;
+  padding: 10px 8px;
+  border-radius: 18px;
+  background: rgba(0, 0, 0, 0.2);
+}
+.final small { display: block; font-size: 13px; opacity: 0.8; letter-spacing: 1px; text-transform: uppercase; }
+.final b { font-size: clamp(30px, 7vmin, 44px); font-weight: 900; }
+.lantern-line { margin: 8px 0 8px; display: flex; align-items: center; justify-content: center; gap: 8px; color: #ffd27a; font-weight: 700; }
+.badge {
+  display: inline-block;
+  margin: 0 0 8px;
+  padding: 4px 16px;
+  border-radius: 999px;
+  background: #ff6b8b;
+  color: #fff;
+  font-weight: 900;
+  animation: pop 0.6s ease-out;
+}
+@keyframes pop { 0% { transform: scale(0.4); opacity: 0; } 70% { transform: scale(1.15); } 100% { transform: scale(1); opacity: 1; } }
+
+/* Short landscape screens (phones turned sideways) */
+@media (max-height: 460px) {
+  .card { padding: 14px 20px; width: min(86vw, 520px); }
+  h1 { font-size: 40px; }
+  h1 br { display: none; }
+  .tag { margin: 6px 0 8px; }
+  .btn { padding: 9px 16px; margin-top: 8px; }
+  .hint { display: none; }
+  .final { margin: 4px 0; }
+}
